@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>타이머</title>
+</head>
+<script>
+    window.onload = () => {
+        const [startBtn, stopBtn, resetBtn] = document.getElementsByTagName('input');
+        const timerSpan = document.getElementById('timer');
+        let interverID = -1000;
+        //시작 버튼 눌렀을 경우 => interval 시작
+        startBtn.onclick = () => {
+            if(interverID === -1000) {
+                interverID = setInterval(plus_time, 1000);
+            }
+        }
+        //일시 정지 버튼 눌렀을 경우 => interver제거
+        stopBtn.onclick = () => {
+            clearInterval(interverID);
+            interverID = -1000;
+        }
+        //정지 및 초기화 버튼 눌렀을 경우 => interval제거 후 시간 되돌리기
+        resetBtn.onclick = () => {
+            clearInterval(interverID);
+            timerSpan.textContent = '00:00:00';
+            interverID = -1000;
+        }
+
+        //시간을 올리고 설정하는 함수
+        function plus_time() {
+            let [hour, min, sec] = timerSpan.textContent.split(':');
+            hour = +hour;
+            min = +min;
+            sec = +sec + 1;
+
+            if (sec === 60) {
+                min++;
+                sec = 0;
+            }
+            if (min === 60) {
+                hour++;
+                min = 0;
+            }
+            if (hour === 24) {
+                hour = 0;
+            }
+            hour = hour >= 10 ? hour : '0' + hour;
+            min = min >= 10 ? min : '0' + min;
+            sec = sec >= 10 ? sec : '0' + sec;
+            timerSpan.textContent = hour + ':' + min + ':' + sec;
+        }
+        //단순 시계
+        setInterval( () => {
+            const date = new Date();
+            let hour = date.getHours();
+            let AMPM;
+            if( hour >= 12){
+                AMPM = 'PM';
+                hour -= 12;
+            }else{
+                AMPM = 'AM';
+            }
+            document.getElementById('clock').textContent = hour + ':' + date.getMinutes() + ":" + date.getSeconds() + AMPM;
+        }, 100);
+    }
+</script>
+<body>
+    <div id="clock"></div>
+    <div id="timer-container">
+        <input type="button" value="시작">
+        <input type="button" value="일시정지">
+        <input type="button" value="정지 및 초기화">
+        <br/>
+        <span id="timer">00:00:00</span>
+    </div>
+</body>
+</html>
