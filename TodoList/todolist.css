@@ -1,0 +1,51 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+section{
+    margin: 0.5rem;
+}
+#todo-list{
+    width: 30rem;
+    background-color: #EEE;
+}
+#todo-list > div{
+    position: relative;
+    text-align: center;
+}
+#todo-list > div > span:first-child{
+    position: absolute;
+    display: inline-block;
+    margin: 0 2em;
+    text-align: center;
+    left: 0;
+}
+#todo-list > div > span:nth-child(2){
+    display: inline-block;
+    text-align: center;
+}
+#todo-list > div > span:last-child{
+    position: absolute;
+    display: inline-block;
+    margin: 0 2em;
+    right: 0;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
