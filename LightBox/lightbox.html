@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./lightbox.css">
+    <title>Light Box</title>
+</head>
+<script>
+
+</script>
+<body>
+    <header>
+        <h1>LIGHT BOX</h1>
+        <img class="thumb" height="150" src="./Jjang1.jpg" alt="짱구1">
+        <img class="thumb" height="150" src="./Jjang2.jpg" alt="짱구2">
+        <img class="thumb" height="150" src="./Jjang3.jpg" alt="짱구3">
+    </header>
+    <div id="lightbox">
+        <input id="close-btn" type="button" value="X"/>
+        <h1>Title 넣는곳</h1>
+        <p>여기는 설명이 들어간다</p>
+        <figure>
+            <img height="150" src="./Jjang1.jpg" alt="짱구1">
+            <img active height="150" src="./Jjang2.jpg" alt="짱구2">
+            <img height="150" src="./Jjang3.jpg" alt="짱구3">
+        </figure>
+
+        <div class="indicator"></div>
+    </div>
+
+    <script src='./lightbox.js'></script>
+</body>
+</html>
