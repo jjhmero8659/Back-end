@@ -1,0 +1,88 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#sticky_wrap{
+    position: fixed;
+    border: 3px solid red;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.sticky{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 8rem;
+    height: 10rem;
+    border: 1px solid black;
+    background-color: lightgoldenrodyellow;
+    overflow: hidden;
+    font-size: 0.7em;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.menu{
+    display: flex;
+    padding: 0 0.1rem;
+    justify-content: space-between;
+}
+.memu span{
+    font-weight: bold;
+}
+
+button{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+textarea{
+    padding: 0.4rem;
+    font-size: 0.7em;
+    box-sizing: border-box;
+    background-color: lightgoldenrodyellow;
+    width: inherit;
+    height: 100%;
+    resize: none;
+    border: none;
+}
+.side-nav{
+    position: absolute;
+    background-color: #cccccc;
+    left: -100%;
+    top: 0;
+    width: 6em;
+    height: 100%;
+    overflow: auto;
+    list-style: none;
+    transition-duration: 0.5s;
+}
+.side-nav[active]{
+    left: 0;
+}
+
+.color-list{
+    display: inline-flex;
+    width: 100%;
+    list-style: none;
+    height: 1.5em;
+}
+.color-list li{
+    box-sizing: border-box;
+    border: 1px solid black;
+    width: 100%;
+}
+
+.memo-list li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.32em;
+    margin: 0.3em 0;
+}
+
+.memo-list i{
+    cursor: pointer;
+}
