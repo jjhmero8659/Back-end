@@ -1,11 +1,22 @@
 const colorList = ['#A8C5FA', '#BDB0F5', '#FADABC', '#D3DEC8', '#DFE0DA'];
-
 const stickyWrap = document.getElementById('sticky_wrap');
 
 init();
 
+//메모장 하나 만들고 배치하기
 function init(){
+    // 메모장이 들어가는 전체 크기
+    const windowSizeWidth = +window.getComputedStyle(stickyWrap).width.split('px')[0];
+    const windowSizeHeight = +window.getComputedStyle(stickyWrap).height.split('px')[0];
+    //랜덤 위치 값 설정
+    const xPos = Math.random() * windowSizeWidth * 0.5;
+    const yPos = Math.random() * windowSizeHeight * 0.5;
+    // 메모장 생성
     const newNote = new StickNote();
+    // 메모장 위치 설정
+    newNote.note.style.top = `${yPos}px`;
+    newNote.note.style.left = `${xPos}px`;
+    // 현재 창에 넣어줌
     stickyWrap.appendChild(newNote.note);
 }
 
@@ -42,10 +53,16 @@ function StickNote(){
     this.colorListUL = this.note.querySelector('.color-list');
     this.memoList = this.note.querySelector('.memo-list');
 
-    //초기화
-    this.init = function (){
-
+    //메모장 선택 시 가장 상위로 올림
+    this.note.onclick = () => {
+        [...document.querySelectorAll('.sticky')].forEach(x => {
+            x.style.zIndex = '0';
+        });
+        this.note.style.zIndex = '99';
     }
+
+    //메모 추가 버튼 눌렀을 시
+    this.addBtn.onclick = init;
 
     //메모장에 색깔 값을 설정하는 부분 + 색을 눌렀을 시 배경색 변경하는 동작
     this.setting_color = function () {
@@ -94,7 +111,67 @@ function StickNote(){
         // localStrage에 있는 모든 값들을 가져와서 메모 목록을 생성한다
         for(let i = 0; i < localStorage.length; i++){
             const memoTitle = localStorage.key(i);
-            this.memoList.insertAdjacentHTML('beforeend', `<li><span>${memoTitle}</span><i class="fa-solid fa-trash-can"></i></li>`);
+            const li = document.createElement('li');
+            const span = document.createElement('span');
+            const iTag = document.createElement('i');
+
+            li.onclick = () => {this.setting_note(memoTitle)};
+            span.textContent = memoTitle;
+            iTag.setAttribute('class', 'fa-solid fa-trash-can');
+            iTag.onclick = () => { remove_data(li, memoTitle) };
+
+            this.memoList.insertAdjacentElement('beforeend', li);
+            li.insertAdjacentElement('beforeend', span);
+            li.insertAdjacentElement('beforeend', iTag);
+        }
+    }
+
+    //노트 저장 목록 클릭했을 때 메모 내용으로 설정하는 곳
+    this.setting_note = (key) => {
+        //노트의 제목, title을 key값으로 변경
+        this.addBtn.nextElementSibling.textContent = key;
+        //텍스트에리어의 값을 localStorage의 value값으로 설정
+        this.textArea.value = localStorage.getItem(key).toString();
+        //side-nav의 acitve값을 변경하여 다시 안나타나게 함
+        this.sideNav.toggleAttribute('active');
+    }
+
+    //노트 닫기 버튼 눌렀을 시
+    this.closeBtn.onclick = () => {
+        if((!(this.textArea.value.trim() === '') && confirm('정말 삭제하시겠습니까?')) || this.textArea.value.trim() === '') {
+            this.note.remove();
+        }
+    }
+
+    //저장되어있는 메모장의 데이터 삭제하기 (쓰레기통 버튼 눌렀을 시) => 눌린 쓰레기통, title 전달
+    function remove_data(element, key){
+        if( confirm('정말 삭제하시겠습니까?')){
+            localStorage.removeItem(key);
+            element.remove();
         }
     }
 }
+
+//메모장 드래그 이동 이벤트
+stickyWrap.addEventListener('mousedown', e => {
+    if(e.target.className === 'menu') {
+        const shiftX = e.clientX - e.target.parentElement.getBoundingClientRect().left;
+        const shiftY = e.clientY - e.target.parentElement.getBoundingClientRect().top;
+        
+        stickyWrap.addEventListener('mousemove', move);
+
+        stickyWrap.addEventListener('mouseup', () => {
+            stickyWrap.removeEventListener('mousemove', move);
+            stickyWrap.onmouseup = null;
+        })
+
+        function move(e){
+            drag(e.pageX, e.pageY);
+        }
+
+        function drag(pageX, pageY){
+            e.target.parentElement.style.left = pageX - shiftX + 'px';
+            e.target.parentElement.style.top = pageY - shiftY + 'px';
+        }
+    }
+})
