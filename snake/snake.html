@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SNAKE GAME</title>
+    <script src="snake.js" defer></script>
+</head>
+<style>
+    body{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    #container{
+        display: flex;
+        width: 400px;
+        flex-direction: column;
+        justify-content: center;
+        align-self: center;
+    }
+</style>
+
+
+<body>
+    <div id="container">
+        <h1>SNAKE GAME</h1>
+        <div>SCORE: <span id="score">0</span></div>
+        <canvas id="main-canvas" width="400" height="400"></canvas>
+    </div>
+</body>
+</html>
